@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/45cali/wiskey/fqdn"
 	"github.com/codegangsta/cli"
+	"github.com/vindalu/go-vindalu-client"
 	"os"
 )
 
@@ -17,7 +19,7 @@ func main() {
 		{
 			Name: "list",
 			//ShortName: "",
-			//Usage:     "list all assets",
+			Usage: "list all assets",
 			Subcommands: []cli.Command{
 				{
 					Name:   "assets",
@@ -25,34 +27,41 @@ func main() {
 					Action: listAssets,
 					Flags: []cli.Flag{
 						cli.StringFlag{
-							Name:  "class",
-							Value: "class",
+							Name: "field",
+							//Value: "class",
+							Usage: "flag to pass in field types",
+						},
+
+						// FQDN filters
+						cli.StringFlag{
+							Name: "class, c",
+							//Value: "class",
 							Usage: "filter results by class",
 						},
 						cli.StringFlag{
-							Name:  "instance",
-							Value: "inst",
+							Name: "instance, i",
+							//Value: "inst",
 							Usage: "filter results by instance",
 						},
 						cli.StringFlag{
-							Name:  "product",
-							Value: "prod",
+							Name: "product, p",
+							//Value: "prod",
 							Usage: "filter results by product",
 						},
 						cli.StringFlag{
-							Name:  "cluster",
-							Value: "cluster",
+							Name: "cluster, cl",
+							//Value: "cluster",
 							Usage: "filter results by cluster",
 						},
 						cli.StringFlag{
-							Name:  "business-unit",
-							Value: "bu",
+							Name: "business-unit, b",
+							//Value: "bu",
 							Usage: "filter results by instance",
 						},
 						cli.StringFlag{
-							Name:  "type",
-							Value: "type",
-							Usage: "filter by asset type",
+							Name: "type, t",
+							//Value: "type",
+							Usage: "filter by asset type ",
 						},
 					},
 				},
@@ -73,6 +82,11 @@ func main() {
 				},
 			},
 		},
+		{
+			Name:   "search",
+			Usage:  "search assets by passing in a field type and value",
+			Action: search,
+		},
 	}
 
 	app.Run(os.Args)
@@ -80,7 +94,17 @@ func main() {
 }
 
 func listAssets(ctx *cli.Context) {
-	fmt.Println("this will list all assets by asset id")
+	c, _ := vindalu.NewClient("http://vindalu.cloudsys.tmcs")
+
+	q := fqdn.ParseFlags(ctx.String("field"))
+
+	item, err := c.List("server", q, 500)
+
+	if err != nil {
+		fmt.Println("err")
+		os.Exit(1)
+	}
+	fmt.Println("total results: ", len(item))
 }
 
 func listTypes(ctx *cli.Context) {
@@ -93,4 +117,8 @@ func listProperties(ctx *cli.Context) {
 
 func listDetail(ctx *cli.Context) {
 	fmt.Println("this will list the details of a specific asset")
+}
+
+func search(ctx *cli.Context) {
+	fmt.Println("this will search by params")
 }
