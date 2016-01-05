@@ -28,20 +28,25 @@ func main() {
 
 	c, _ := vindalu.NewClient("http://vindalu.cloudsys.tmcs/")
 
-	searchAssets(*atype, *search, *count, c)
+	searchAssets(*atype, *search, *fqdn, *count, c)
 
 }
 
-func searchAssets(atype, search string, count int64, c *vindalu.Client) {
-	//c, _ := vindalu.NewClient("http://vindalu.cloudsys.tmcs/")
+func searchAssets(atype, search, fqdn string, count int64, c *vindalu.Client) {
 
-	q := fqdn.ParseFlagsOld(search)
-	//fmt.Println(q)
-	//items, err := c.List(atype, nil, q)
+	qb := fqdn.ParseFlags(search)
+
+	items, err := c.List(atype, nil, qb)
 
 	if err != nil {
 		fmt.Println("err")
 		os.Exit(1)
 	}
 	fmt.Println("total results: ", len(items))
+
+	for _, item := range items {
+		fmt.Println(item.Id)
+
+	}
+
 }

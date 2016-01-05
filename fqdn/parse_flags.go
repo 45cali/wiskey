@@ -7,7 +7,7 @@ import (
 )
 
 // ParseFlags this is a comment
-func ParseFlagsOld(s string) map[string]interface{} {
+func ParseFlags(s string) map[string]interface{} {
 
 	m := make(map[string]interface{})
 	commaSplit := strings.Split(s, ",")
