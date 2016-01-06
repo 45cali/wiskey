@@ -15,7 +15,7 @@ func main() {
 	search := flag.String("search", "", "search stuff")
 	atype := flag.String("type", "", "type of asset")
 	count := flag.Int64("count", 100, "default results returned")
-	fqdn := flag.String("fqdn", "", "filter results by class, product, cluster, business unit or domain")
+	hfqdn := flag.String("fqdn", "", "filter results by class, product, cluster, business unit or domain")
 
 	flag.Parse()
 
@@ -24,15 +24,15 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("searching for %s's that have fields %s and returning the first %d and applying the following filters %s\n", *atype, *search, *count, *fqdn)
+	fmt.Printf("searching for %s's that have fields %s and returning the first %d and applying the following filters %s\n", *atype, *search, *count, *hfqdn)
 
 	c, _ := vindalu.NewClient("http://vindalu.cloudsys.tmcs/")
 
-	searchAssets(*atype, *search, *fqdn, *count, c)
+	searchAssets(*atype, *search, *hfqdn, *count, c)
 
 }
 
-func searchAssets(atype, search, fqdn string, count int64, c *vindalu.Client) {
+func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
 
 	qb := fqdn.ParseFlags(search)
 
@@ -43,10 +43,11 @@ func searchAssets(atype, search, fqdn string, count int64, c *vindalu.Client) {
 		os.Exit(1)
 	}
 	fmt.Println("total results: ", len(items))
-
+	hosts := []string{}
 	for _, item := range items {
-		fmt.Println(item.Id)
+		hosts = append(hosts, item.Id)
 
 	}
+	fmt.Println(len(fqdn.Filter(hosts, hfqdn)))
 
 }
