@@ -2,11 +2,15 @@ package help
 
 import (
 	"fmt"
-
 	"os"
 )
 
 func Help() {
-	fmt.Println("calls the help command")
-	os.Exit(0)
+	args := os.Args
+	for _, a := range args {
+		if a == "help" || a == "-h" || a == "--help" {
+			fmt.Println("Help is on the way")
+			os.Exit(0)
+		}
+	}
 }

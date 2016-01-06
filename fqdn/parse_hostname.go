@@ -17,7 +17,12 @@ func Filter(hosts []string, hfqdn string) (fhosts []string) {
 	for _, host := range hosts {
 		//fmt.Println(h)
 		h, _ := parseHostName(host)
+
 		isValid := evaluate(h, fqdnOps)
+		//fmt.Println(h)
+		//fmt.Println(fqdnOps)
+		//fmt.Println(isValid)
+
 		if isValid {
 			fhosts = append(fhosts, host)
 		}
@@ -95,6 +100,18 @@ func parseHostName(s string) (m map[string]string, err error) {
 	return
 }
 
-func evaluate(h, f map[string]string) bool {
-	return true
+func evaluate(h, f map[string]string) (b bool) {
+	//fmt.Println(h)
+	//	fmt.Println(f)
+
+	for k, v := range f {
+		//fmt.Printf("%s == %s %s \n",h[k],v,h[k] == v)
+		if h[k] == v {
+			b = true
+		} else {
+			b = false
+			break
+		}
+	}
+	return
 }

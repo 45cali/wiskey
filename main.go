@@ -5,14 +5,13 @@ import (
 	"fmt"
 	wiskeyConf "github.com/45cali/wiskey/config"
 	"github.com/45cali/wiskey/fqdn"
-	//	"github.com/codegangsta/cli"
-	//"github.com/45cali/wiskey/help"
+	"github.com/45cali/wiskey/help"
 	"github.com/vindalu/go-vindalu-client"
 	"os"
 )
 
 func main() {
-
+	help.Help()
 	search := flag.String("search", "", "search stuff")
 	atype := flag.String("type", "", "type of asset")
 	count := flag.Int64("count", 100, "default results returned")
@@ -49,6 +48,10 @@ func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
 		hosts = append(hosts, item.Id)
 
 	}
-	fmt.Println(len(fqdn.Filter(hosts, hfqdn)))
-	fmt.Println(len(hosts))
+
+	filtered := fqdn.Filter(hosts, hfqdn)
+	fmt.Println("total not filtered: ", len(filtered))
+	for _, f := range filtered {
+		fmt.Println(f)
+	}
 }
