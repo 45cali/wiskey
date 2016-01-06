@@ -10,6 +10,7 @@ import (
 func Filter(hosts []string, hfqdn string) (fhosts []string) {
 	if len(hfqdn) == 0 {
 		fhosts = hosts
+		return
 	}
 
 	fqdnOps, _ := parseFqdn(hfqdn)

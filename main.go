@@ -49,5 +49,5 @@ func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
 
 	}
 	fmt.Println(len(fqdn.Filter(hosts, hfqdn)))
-
+	fmt.Println(len(hosts))
 }
