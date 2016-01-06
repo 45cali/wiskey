@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	wiskeyConf "github.com/45cali/wiskey/config"
 	"github.com/45cali/wiskey/fqdn"
 	//	"github.com/codegangsta/cli"
 	//"github.com/45cali/wiskey/help"
@@ -26,7 +27,7 @@ func main() {
 
 	fmt.Printf("searching for %s's that have fields %s and returning the first %d and applying the following filters %s\n", *atype, *search, *count, *hfqdn)
 
-	c, _ := vindalu.NewClient("http://vindalu.cloudsys.tmcs/")
+	c, _ := vindalu.NewClient(wiskeyConf.Server())
 
 	searchAssets(*atype, *search, *hfqdn, *count, c)
 
