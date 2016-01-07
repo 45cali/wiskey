@@ -12,22 +12,30 @@ import (
 
 func main() {
 	help.Help()
+	args := os.Args
+
+	fmt.Println(len(args))
+	os.Exit(0)
 	search := flag.String("search", "", "search stuff")
 	atype := flag.String("type", "", "type of asset")
 	count := flag.Int64("count", 100, "default results returned")
 	hfqdn := flag.String("fqdn", "", "filter results by class, product, cluster, business unit or domain")
+	//list := flag.String("list", "", "type of asset")
 
 	flag.Parse()
 
-	if len(*atype) == 0 {
-		fmt.Println("-type cannot be blank")
-		os.Exit(0)
-	}
+	//if len(*atype) == 0 {
+	//	fmt.Println("-type cannot be blank")
+	//	os.Exit(0)
+	//}
 
-	fmt.Printf("searching for %s's that have fields %s and returning the first %d and applying the following filters %s\n", *atype, *search, *count, *hfqdn)
+	//fmt.Printf("searching for %s's that have fields %s and returning the first %d and applying the following filters %s\n", *atype, *search, *count, *hfqdn)
 
 	c, _ := vindalu.NewClient(wiskeyConf.Server())
 
+	//switch {
+	//case len(*)
+	//	}
 	searchAssets(*atype, *search, *hfqdn, *count, c)
 
 }
