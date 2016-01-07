@@ -77,6 +77,7 @@ func parseHostName(s string) (m map[string]string, err error) {
 				m["instance"] = instance[1]
 			}
 		} else {
+
 			m["class"] = strings.Trim(class[0], "1234567890")
 
 			re := regexp.MustCompile("[0-9]+")

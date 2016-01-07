@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const help = `
+const Usage = `
 wiskey [options] [filters]
 
 options:
@@ -26,7 +26,7 @@ func Help() {
 	args := os.Args
 	for _, a := range args {
 		if a == "help" || a == "-h" || a == "--help" {
-			fmt.Println(help)
+			fmt.Println(Usage)
 			os.Exit(0)
 		}
 	}
