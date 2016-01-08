@@ -8,6 +8,7 @@ import (
 	"github.com/45cali/wiskey/help"
 	"github.com/vindalu/go-vindalu-client"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -60,24 +61,32 @@ func main() {
 }
 
 func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
+	atypeSplit := strings.Split(atype, ",")
 
 	qb := fqdn.ParseFlags(search)
-	fmt.Println(qb)
-	items, err := c.List(atype, nil, qb)
-
-	if err != nil {
-		fmt.Println("wiskey was unable to connect to server")
-		os.Exit(0)
-	}
-	fmt.Println("total results: ", len(items))
+	//fmt.Println(qb)
 	hosts := []string{}
-	for _, item := range items {
-		hosts = append(hosts, item.Id)
+
+	for _, a := range atypeSplit {
+
+		items, err := c.List(a, nil, qb)
+
+		if err != nil {
+			fmt.Println("wiskey was unable to connect to server")
+			os.Exit(0)
+		}
+
+		//fmt.Println("total results: ", len(items))
+
+		for _, item := range items {
+			hosts = append(hosts, item.Id)
+
+		}
 
 	}
-
+	fmt.Println("total assets: ", len(hosts))
 	filtered := fqdn.Filter(hosts, hfqdn)
-	fmt.Println("total not filtered: ", len(filtered))
+	fmt.Println("total assets not filtered: ", len(filtered))
 	//	for _, f := range filtered {
 	//		fmt.Println(f)
 	//	}
