@@ -24,7 +24,7 @@ func main() {
 	atype := flag.String("type", "", "type of asset")
 	count := flag.Int64("count", 100, "default results returned")
 	hfqdn := flag.String("fqdn", "", "filter results by class, product, cluster, business unit or domain")
-	//list := flag.String("list", "", "type of asset")
+	list := flag.String("list", "", "type of asset")
 	//	fmt.Println("main parse flags")
 
 	flag.Parse()
@@ -52,6 +52,12 @@ func main() {
 		//	fmt.Println("switch -search and -type")
 
 		searchAssets(*atype, *search, *hfqdn, *count, c)
+	case len(args) == 3 && *list == "types":
+		//fmt.Println("case list types")
+		listTypes(c)
+	case len(args) == 5 && *list == "fields" && len(*atype) > 0:
+		fmt.Println("case list fields type: ", *atype)
+		listTypeProperties(*atype, c)
 	default:
 		//	fmt.Println("switch default help")
 
@@ -90,5 +96,30 @@ func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
 	//	for _, f := range filtered {
 	//		fmt.Println(f)
 	//	}
+
+}
+
+func listTypes(c *vindalu.Client) {
+	items, err := c.GetTypes()
+	if err != nil {
+		fmt.Println("wiskey was unable to connect to server")
+		os.Exit(0)
+	}
+	for _, item := range items {
+		fmt.Println(item.Name)
+	}
+}
+
+func listTypeProperties(s string, c *vindalu.Client) {
+	items, err := c.ListTypeProperties(s)
+
+	if err != nil {
+		fmt.Println("wiskey was unable to connect to server", err)
+		os.Exit(0)
+	}
+
+	for _, item := range items {
+		fmt.Println(item)
+	}
 
 }
