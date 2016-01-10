@@ -9,13 +9,15 @@ const Usage = `
 wiskey [options] [filters]
 
 options:
-	-h, --help, help      Show this message
+	-h, --help, help      show this message
 	-type <asset type>    list results of specified type
 	-list types           list avaliable asset types
-	-list fields          list searchable fields of specified asset type (must be used
-	                      with the -type flag)
+	-list fields          list searchable fields of specified asset type (must be used with the -type flag)
+
 
 filters:
+	-asset <asset id>     return all fields for specified asset id, used with -type flag
+	-fields               used to filter the results of the -type flag when used with the -asset flag
 	-search               only returns assets if specified type with specified field values
 	-fqdn                 can filter 'server' type by: class, superClass,instance,
 	                      superInstance, product, cluster, businessUnit, domain

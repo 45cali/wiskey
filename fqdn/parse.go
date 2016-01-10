@@ -13,7 +13,7 @@ func Filter(hosts []string, hfqdn string) (fhosts []string) {
 		return
 	}
 
-	fqdnOps, _ := parseFqdn(hfqdn)
+	fqdnOps, _ := parseFqdnFlag(hfqdn)
 	for _, host := range hosts {
 		//fmt.Println(h)
 		h, _ := parseHostName(host)
@@ -34,7 +34,7 @@ func Filter(hosts []string, hfqdn string) (fhosts []string) {
 
 // parseParams parses the search params by the comma delimiter and then the equal delimiter
 // returns a
-func parseFqdn(s string) (map[string]string, error) {
+func parseFqdnFlag(s string) (map[string]string, error) {
 	m := make(map[string]string)
 	var err error
 	// split strings by ','
@@ -101,6 +101,23 @@ func parseHostName(s string) (m map[string]string, err error) {
 	return
 }
 
+// ParseFlags this is a comment
+func ParseSearchFlag(s string) map[string]interface{} {
+
+	m := make(map[string]interface{})
+	commaSplit := strings.Split(s, ",")
+	for _, c := range commaSplit {
+		//fmt.Println(c)
+
+		equalSplit := strings.Split(c, "=")
+		if len(equalSplit) == 2 {
+			m[equalSplit[0]] = equalSplit[1]
+		}
+	}
+
+	return m
+}
+
 func evaluate(h, f map[string]string) (b bool) {
 	//fmt.Println(h)
 	//	fmt.Println(f)
@@ -113,6 +130,14 @@ func evaluate(h, f map[string]string) (b bool) {
 			b = false
 			break
 		}
+	}
+	return
+}
+
+func ParseFieldsFlag(s string) (f []string, b bool) {
+	f = strings.Split(s, ",")
+	if len(f) > 0 {
+		b = true
 	}
 	return
 }

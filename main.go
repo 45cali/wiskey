@@ -25,6 +25,9 @@ func main() {
 	count := flag.Int64("count", 100, "default results returned")
 	hfqdn := flag.String("fqdn", "", "filter results by class, product, cluster, business unit or domain")
 	list := flag.String("list", "", "type of asset")
+	asset := flag.String("asset", "", "expects asset id")
+	fields := flag.String("fields", "", "retrieve only specified fields of an asset")
+	aVersion := flag.Int64("asset-version", 0, "version of specified asset")
 	//	fmt.Println("main parse flags")
 
 	flag.Parse()
@@ -43,21 +46,25 @@ func main() {
 	switch {
 	case len(args) == 3 && len(*atype) > 0:
 		//	fmt.Println("switch only -type")
-
 		searchAssets(*atype, *search, *hfqdn, *count, c)
+
 	case len(*hfqdn) > 0 && len(*atype) > 0:
 		searchAssets(*atype, *search, *hfqdn, *count, c)
 
 	case len(*search) > 0 && len(*atype) > 0:
 		//	fmt.Println("switch -search and -type")
-
 		searchAssets(*atype, *search, *hfqdn, *count, c)
+
 	case len(args) == 3 && *list == "types":
 		//fmt.Println("case list types")
 		listTypes(c)
+
 	case len(args) == 5 && *list == "fields" && len(*atype) > 0:
-		fmt.Println("case list fields type: ", *atype)
+		//fmt.Println("case list fields type: ", *atype)
 		listTypeProperties(*atype, c)
+	case len(*asset) > 0 && len(*atype) > 0:
+		//fmt.Println("case -type ... -asset id fields  ", *fields, *aVersion)
+		getAssetFields(*atype, *asset, *fields, *aVersion, c)
 	default:
 		//	fmt.Println("switch default help")
 
@@ -69,7 +76,7 @@ func main() {
 func searchAssets(atype, search, hfqdn string, count int64, c *vindalu.Client) {
 	atypeSplit := strings.Split(atype, ",")
 
-	qb := fqdn.ParseFlags(search)
+	qb := fqdn.ParseSearchFlag(search)
 	//fmt.Println(qb)
 	hosts := []string{}
 
@@ -122,4 +129,15 @@ func listTypeProperties(s string, c *vindalu.Client) {
 		fmt.Println(item)
 	}
 
+}
+
+func getAssetFields(atype, asset, fields string, version int64, c *vindalu.Client) {
+	items, err := c.Get(atype, asset, version)
+	if err != nil {
+		fmt.Println("wiskey was unable to connect to server", err)
+		os.Exit(0)
+	}
+	for k, v := range items.Data {
+		fmt.Println(k, ": ", v)
+	}
 }
