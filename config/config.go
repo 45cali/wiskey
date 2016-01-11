@@ -7,21 +7,20 @@ import (
 	"os"
 )
 
-const SERV_CONF = ".vindalu/wiskey"
+const serveConf = ".vindalu/wiskey"
 
 type server struct {
 	Server string `json:"server"`
 }
 
+// Server retrieves the url for the vindalu server
 func Server() string {
 	var b []byte
-	b, err := ioutil.ReadFile(os.Getenv("HOME") + "/" + SERV_CONF)
+	b, err := ioutil.ReadFile(os.Getenv("HOME") + "/" + serveConf)
 	if err != nil {
-		fmt.Println("could not read file")
+		fmt.Printf("could not read file at $HOME/%s\n", serveConf)
 	}
-
 	serv := server{}
 	err = json.Unmarshal(b, &serv)
-
 	return serv.Server
 }
