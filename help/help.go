@@ -8,7 +8,17 @@ import (
 // Usage holds the help infomation
 const Usage = `
 Wiskey is a command line tool for vindalu. It can query vindalu and return infomation
-about available assets and asset types
+about available assets and asset types. Source code can be found at
+https://github.com/45cali/wiskey
+
+setup
+ touch a file at $HOME/.vindalu/wiskey add the url of the vindalu server
+ example:
+      {
+         "server" : "http://localhost:8080/"
+      }
+
+version 1.0.0
 
 wiskey [options] [filters]
 
