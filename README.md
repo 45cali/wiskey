@@ -1,5 +1,5 @@
 # wiskey
-Wiskey id a cli tool to interact with vindalu
+Wiskey is a cli tool to interact with vindalu
 
 
 
