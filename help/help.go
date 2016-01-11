@@ -7,6 +7,9 @@ import (
 
 // Usage holds the help infomation
 const Usage = `
+Wiskey is a command line tool for vindalu. It can query vindalu and return infomation
+about available assets and asset types
+
 wiskey [options] [filters]
 
 options:
@@ -25,7 +28,8 @@ filters:
 	                                            flag when used with the -asset flag
 
 	-search <field>=<value>,<field>=<value>...  only returns assets if specified type
-	                                            with specified field values
+	                                            with specified field values. >,>=,<= and < can
+	                                            be used aswell if the value is numeric.
 
 	-fqdn   class=<value>,instance=<vlaue>...   can filter 'server' type by: class,
 	                                            superClass,instance, superInstance, product,

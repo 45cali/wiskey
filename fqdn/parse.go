@@ -44,10 +44,8 @@ func parseFqdnFlag(s string) (map[string]string, error) {
 			} else {
 				err = fmt.Errorf("%s does not have a length of 2", splitByEqual)
 			}
-
 		}
 	}
-
 	return m, err
 }
 
@@ -109,7 +107,6 @@ func ParseSearchFlag(s string) map[string]interface{} {
 			m[equalSplit[0]] = equalSplit[1]
 		}
 	}
-
 	return m
 }
 
@@ -131,7 +128,7 @@ func evaluate(h, f map[string]string) (b bool) {
 // a bool that id true in len([]string) > 0
 func ParseFieldsFlag(s string) (f []string, b bool) {
 	f = strings.Split(s, ",")
-	if len(f) > 0 {
+	if len(f) >= 1 {
 		b = true
 	}
 	return

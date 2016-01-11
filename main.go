@@ -104,7 +104,16 @@ func getAssetFields(atype, asset, fields string, version int64, c *vindalu.Clien
 		fmt.Println("wiskey was unable to connect to server", err)
 		os.Exit(0)
 	}
-	for k, v := range items.Data {
-		fmt.Println(k, ": ", v)
+
+	f, b := fqdn.ParseFieldsFlag(fields)
+	if b == true {
+		for _, i := range f {
+			fmt.Println(i, ": ", items.Data[i])
+		}
+	} else {
+
+		for k, v := range items.Data {
+			fmt.Println(k, ": ", v)
+		}
 	}
 }

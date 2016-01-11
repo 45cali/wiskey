@@ -19,6 +19,8 @@ func Server() string {
 	b, err := ioutil.ReadFile(os.Getenv("HOME") + "/" + serveConf)
 	if err != nil {
 		fmt.Printf("could not read file at $HOME/%s\n", serveConf)
+		os.Exit(0)
+
 	}
 	serv := server{}
 	err = json.Unmarshal(b, &serv)
