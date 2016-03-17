@@ -99,12 +99,12 @@ func listTypeProperties(s string, c *vindalu.Client) {
 }
 
 func getAssetFields(atype, asset, fields string, version int64, c *vindalu.Client) {
+
 	items, err := c.Get(atype, asset, version)
 	if err != nil {
-		fmt.Println("wiskey was unable to connect to server", err)
+		fmt.Println("ERROR: ", err)
 		os.Exit(0)
 	}
-
 	f, b := fqdn.ParseFieldsFlag(fields)
 	if b == true {
 		for _, i := range f {

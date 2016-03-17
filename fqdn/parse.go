@@ -129,7 +129,9 @@ func evaluate(h, f map[string]string) (b bool) {
 func ParseFieldsFlag(s string) (f []string, b bool) {
 	f = strings.Split(s, ",")
 	if len(f) >= 1 {
-		b = true
+		if len(f[0]) > 0 {
+			b = true
+		}
 	}
 	return
 }
